@@ -1,6 +1,7 @@
 package edu.udacity.java.nano.chat;
 
 import com.alibaba.fastjson.JSON;
+import edu.udacity.java.nano.util.Constants;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -19,6 +20,8 @@ public class WebSocketChatServer {
 
     private static HashMap<String, String> onlineUsers = new HashMap<>();
 
+   private static Constants constants = new Constants();
+
     private static void sendMessageToAll(String msg) {
         onlineSessions.forEach((id, session) -> {
             try{
@@ -31,19 +34,15 @@ public class WebSocketChatServer {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String user) {
-        System.out.println(session.getId());
-        System.out.println(user);
         onlineSessions.put(session.getId(), session);
         onlineUsers.put(session.getId(), user);
-        sendMessageToAll(Message.strToJson("ENTERED THE CHAT", user, onlineSessions.size(), "ENTER"));
+        sendMessageToAll(Message.strToJson(constants.ENTER_CHAT, user, onlineSessions.size(), constants.ENTER));
     }
 
     @OnMessage
     public void onMessage(Session session, String jsonStr) {
-        System.out.println("message from client : " + session);
-        System.out.println("message : " + jsonStr);
         Message message = JSON.parseObject(jsonStr, Message.class);
-        sendMessageToAll(Message.strToJson(message.getMsg(), message.getUsername(), onlineSessions.size(), "SPEAK"));
+        sendMessageToAll(Message.strToJson(message.getMsg(), message.getUsername(), onlineSessions.size(), constants.SPEAK));
     }
 
     @OnClose
