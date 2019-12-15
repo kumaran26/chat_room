@@ -17,11 +17,19 @@ public class WebSocketChatApplication {
         SpringApplication.run(WebSocketChatApplication.class, args);
     }
 
+    /**
+     * This is the method which returns the login page
+     * @return Login page.
+     */
     @GetMapping("/")
     public ModelAndView login() {
         return new ModelAndView("/login");
     }
 
+    /**
+     * This is the method which returns the chat room page
+     * @return Chatroom Page.
+     */
     @GetMapping("/index")
     public ModelAndView index(String username, HttpServletRequest request) throws UnknownHostException {
         ModelAndView chatPage = new ModelAndView("/chat");
