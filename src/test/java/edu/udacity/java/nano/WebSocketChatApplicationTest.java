@@ -23,7 +23,7 @@ public class WebSocketChatApplicationTest {
         this.mockMvc.perform(get("/"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(view().name("/login"));
+            .andExpect(view().name("login"));
     }
 
     @Test
@@ -32,7 +32,7 @@ public class WebSocketChatApplicationTest {
         this.mockMvc.perform(get("/index?username=" + username))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(view().name("/chat"))
+            .andExpect(view().name("chat"))
             .andExpect(model().attribute("username", username));
     }
 
